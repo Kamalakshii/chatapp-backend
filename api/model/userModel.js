@@ -35,7 +35,6 @@ userModel.prototype.registration = (body, callback) => {
     
     user.find({ "email": body.email },(err, data) => {
         console.log("data===>",data);
-        
         if (err) {
             console.log("Error in registration");
             callback(err);
@@ -95,9 +94,11 @@ userModel.prototype.login = (body, callback) => {
     });
 }
 userModel.prototype.updateUserPassword = (req, callback) => {
+    console.log("before...",req.body.password);
+    
     let newPassword = bcrypt.hashSync(req.body.password, saltRounds);
     console.log('new pass bcrypt--', newPassword);
-    user.updateOne({ _id: req.decoded.payload.user_id }, { Password: newPassword }, (err, result) => {
+    user.updateOne({ _id: req.decoded.payload.user_id }, { password: newPassword }, (err, result) => {
         if (err) {
             callback(err);
         }
@@ -119,7 +120,7 @@ userModel.prototype.forgotPassword = (data, callback) => {
                 callback(null, result);
             }
             else {
-                callback("incorect mail")
+                callback("Incorect mail")
             }
         }
     });

@@ -8,7 +8,7 @@ exports.login = (req, res) => {
    try {
     req.checkBody('email', 'Invaild email').isEmail();
      req.checkBody('password', 'Invaild password').isLength({
-        min: 6
+        min: 8
     });
      var errors = req.validationErrors();
      var response = {};
@@ -97,7 +97,7 @@ exports.forgotPassword = (req, res) => {
                 }
                // console.log(payload);
                 const obj = token.GenerateToken(payload);
-                const url = `http://localhost:1996/resetPassword/${obj.token}`;
+                const url = `http://localhost:3000/resetPassword/${obj.token}`;
                 sent.sendEMailFunction(url);
                 res.status(200).send(url);
             }
@@ -105,11 +105,7 @@ exports.forgotPassword = (req, res) => {
     } catch (err) {
         res.send(err);
     }
-}/**
- * 
- * @param {*} req 
- * @param {*} res 
- */
+}
 exports.setPassword = (req, res) => {
     try {
         var responseResult = {};

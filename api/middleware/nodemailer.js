@@ -14,8 +14,8 @@ exports.sendEMailFunction = url => {
     const mailOptions = {
         from: process.env.userName,          // sender address
         to: process.env.userName,           // list of receivers
-        subject: 'send mail from node js',    // Subject line
-        text: 'Your Email verification link is:\n\n' + url
+        subject: 'The mail has been received...',    // Subject line
+        text: 'The verification link for email is:\n\n' + url
     };
     transporter.sendMail(mailOptions, (err, info) => {
         if (err)

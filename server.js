@@ -1,14 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = require("./api/routes/router")
-
 // create express app
-const app = express();
-
-// parse requests of content-type - application/x-www-form-urlencoded
+const app = express(); 
 app.use(bodyParser.urlencoded({ extended: true }))
-
-// parse requests of content-type - application/json
 app.use(bodyParser.json())
 //TO perform validations
 var expressValidator = require('express-validator');
