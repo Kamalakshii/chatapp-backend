@@ -1,4 +1,3 @@
-
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 let saltRounds = 10;
@@ -95,7 +94,6 @@ userModel.prototype.login = (body, callback) => {
 }
 userModel.prototype.updateUserPassword = (req, callback) => {
     console.log("before...",req.body.password);
-    
     let newPassword = bcrypt.hashSync(req.body.password, saltRounds);
     console.log('new pass bcrypt--', newPassword);
     user.updateOne({ _id: req.decoded.payload.user_id }, { password: newPassword }, (err, result) => {
@@ -122,6 +120,32 @@ userModel.prototype.forgotPassword = (data, callback) => {
             else {
                 callback("Incorect mail")
             }
+        }
+    });
+}
+
+userModel.prototype.findUserEmail = (data, callback) => {
+    user.findOne({ "Email": data.email }, (err, result) => {
+        if (err) {
+            callback(err);
+        }
+        else {
+            if (result !== null && data.email == result.email) {
+                callback(null, result);
+            }
+            else {
+                callback("incorect mail")
+            }
+        }
+    });
+}
+
+userModel.prototype.getAllUsers = (callback) => {
+    user.find({}, (err, result) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, result);
         }
     });
 }

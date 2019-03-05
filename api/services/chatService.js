@@ -1,5 +1,4 @@
-const chatModel = require('../application/model/chat.model')
-
+const chatModel = require('../model/chatModel')
 exports.addMessage = (req, callback) => {
     chatModel.addMessage(req, (err, result) => {
         if (err) {
@@ -8,6 +7,16 @@ exports.addMessage = (req, callback) => {
         } else {
 
             return callback(null, result);
+        }
+    })
+}
+
+exports.getAllUserChats = (req, callback) => {
+    chatModel.getAllUserChats(req, (err, result) => {
+        if (err) {
+            callback(err);
+        } else {
+            callback(null, result);
         }
     })
 }

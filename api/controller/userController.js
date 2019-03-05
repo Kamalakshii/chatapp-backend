@@ -1,10 +1,9 @@
 const userService = require("../services/userService");
 const sent = require('../middleware/nodemailer');
-
 const token = require('../middleware/token');
+
 exports.login = (req, res) => {
-    console.log("login ==>req",req);
-    
+    console.log("login ==>req",req);    
    try {
     req.checkBody('email', 'Invaild email').isEmail();
      req.checkBody('password', 'Invaild password').isLength({
@@ -36,8 +35,9 @@ exports.login = (req, res) => {
   } catch (err) {
      res.send(err);
    }
- }
-  exports.registration = (req, res) => {
+}
+
+exports.registration = (req, res) => {
     try {
          req.checkBody('firstname', 'Invaild firstname').isLength({
              min: 3
@@ -78,9 +78,7 @@ exports.login = (req, res) => {
 };
 
 exports.forgotPassword = (req, res) => {
-
-    console.log("request in controllert==>",req.body);
-    
+    console.log("request in controllert==>",req.body);    
     try {
         var responseResult = {};
         userService.forgotPassword(req.body, (err, result) => {
@@ -127,3 +125,74 @@ exports.setPassword = (req, res) => {
         res.send(err);
     }
 }
+
+exports.sendResponse = (req, res) => {
+    try {
+        var responseResult = {};
+        console.log('in user ctrl send token is verified response');
+        userService.redirect(req.decoded, (err, result) => {
+            if (err) {
+                responseResult.success = false;
+                responseResult.error = err;
+                res.status(500).send(responseResult)
+            }
+            else {
+                console.log('in user ctrl token is verified giving response');
+                responseResult.success = true;
+                responseResult.result = result;
+                res.status(200).send(responseResult);
+            }
+        })
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.getUser = (req, res) => {
+    try {
+        var responseResult = {};
+        userService.getUserEmail(req.body, (err, result) => {
+            if (err) {
+                responseResult.success = false;
+                responseResult.error = err;
+                res.status(500).send(responseResult)
+            }
+            else {
+                responseResult.success = true;
+                responseResult.result = result;
+                const payload = {
+                    user_id: responseResult.result._id
+                }
+                console.log(payload);
+                const obj = token.GenerateToken(payload);
+                const url = `http://localhost:1996/resetPassword/${obj.token}`;
+                sent.sendEMailFunction(url);
+                res.status(200).send(url);
+            }
+        })
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.getAllUsers = (req, res) => {
+    try {
+        var responseResult = {}
+        userService.getAllUsers((err, result) => {
+            if (err) {
+                responseResult.success = false;
+                responseResult.error = err;
+                res.status(500).send(responseResult)
+            }
+            else {
+                responseResult.success = true;
+                responseResult.result = result;
+                res.status(200).send(responseResult);
+            }
+        })
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+

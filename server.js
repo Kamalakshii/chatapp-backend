@@ -5,7 +5,8 @@ const router = require("./api/routes/router")
 const app = express(); 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-//TO perform validations
+const chatControllers = require("../Server/api/controller/chatController")
+//To perform validations
 var expressValidator = require('express-validator');
 app.use(expressValidator());
 const databaseConfig = require("../Server/configuration/database.configuration");
@@ -25,11 +26,42 @@ console.log("Successfully connected to the database");
 
 // define a simple route
 app.get('/', (req, res) => {
-    res.json({"message": "Welcome to chat-app"});
+    res.json({"message": "Welcome to Chat-App"});
 });
 
-// listen for requests
-app.listen(4000, () => {
-    console.log("Server is listening on port 4000");
+// to listen for requests
+const server = app.listen(4000, () => {
+    console.log("The server is listening on port number 4000");
 });
 module.exports = app;
+/**
+ * socket connection
+ */
+const io = require('socket.io').listen(server)
+io.sockets.on('connection', function (socket) {
+    connections = [];
+    connections.push(socket)
+    //Whenever someone connects this gets executed
+    console.log("user is connected")
+    socket.on('new_msg', function (req) {
+        console.log("request in server js ==>",req);
+        chatControllers.addMessage(req, (err, result) => {
+            if (err) {
+                console.log("Error on server side while receiving the data");
+            }
+            else {
+               // socket.emit('emitMsg', result);
+            }
+            io.emit(req.recieverId, result);
+            io.emit(req.senderId,result);
+        })
+    })
+})
+/**
+ * socket Disconnect
+ **/
+io.on('disconnect', function (data) {
+    connections.splice(connections.indexOf(socket), 1)
+     //Whenever someone disconnects this code is executed
+    console.log("user is disconnected");
+})
