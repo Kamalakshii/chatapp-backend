@@ -1,4 +1,17 @@
+/******************************************************************************
+ *  @Purpose        : To create chat controller to handle the incoming data. 
+ *  @file           : chatController.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @version        : v0.1
+ *  @since          : 03-03-2019
+ ******************************************************************************/
+
 const chatServices = require('../services/chatService');
+/**
+ * 
+ * @param {*} req 
+ * @param {*} callback 
+ */
 module.exports.addMessage = (req, callback) => {
     chatServices.addMessage(req, (err, data) => {
         if (err) {
@@ -8,7 +21,11 @@ module.exports.addMessage = (req, callback) => {
         }
     })
 }
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 module.exports.getAllUserChats = (req, res) => {
     var responseResult = {};
     chatServices.getAllUserChats((err, result) => {

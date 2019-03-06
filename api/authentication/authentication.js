@@ -1,3 +1,9 @@
+/******************************************************************************
+ *  @Purpose        : Create authentication to change the settings or password. 
+ *  @file           : authentication.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @since          : 25-02-2019
+ ******************************************************************************/
 var jwt = require('jsonwebtoken');
 exports.checkToken = (req, res, next) => {
     var token1 = req.headers['token'];
@@ -6,7 +12,7 @@ exports.checkToken = (req, res, next) => {
      **/
     if (token1) {
         /**
-         * verifies secret and checks exp
+         * verifies secret and checks expression
          **/
         jwt.verify(token1, 'secretkey', (err, decoded) => {
             if (err) {

@@ -1,4 +1,18 @@
+/******************************************************************************
+ *  @Purpose        : To create user services that will send the incoming data 
+                    to user_model and save that data to database and at login 
+                    time fetching correct information from database.
+ *  @file           : userService.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @version        : v0.1
+ *  @since          : 0-03-2019
+ ******************************************************************************/
 const userModel = require('../model/userModel')
+/**
+ * 
+ * @param {*} data 
+ * @param {*} callback 
+ */
 exports.login = (data, callback) => {
     try {
         console.log("services use data:", data);
@@ -16,6 +30,11 @@ exports.login = (data, callback) => {
         callback.send(error);
     }
 }
+/**
+ * 
+ * @param {*} data 
+ * @param {*} callback 
+ */
 exports.registration = (data, callback) => {
     try {
         userModel.registration(data, (err, result) => {
@@ -67,7 +86,11 @@ exports.resetpassword = (req, callback) => {
         callback.send(error);
     }
 }
-
+/**
+ * 
+ * @param {*} decoded 
+ * @param {*} callback 
+ */
 exports.redirect = (decoded, callback) => {
     userModel.confirmUser(decoded, (err, result) => {
         if (err) {
@@ -77,8 +100,11 @@ exports.redirect = (decoded, callback) => {
         }
     })
 }
-
-
+/**
+ * 
+ * @param {*} data 
+ * @param {*} callback 
+ */
 exports.getUserEmail = (data, callback) => {
     try {
         userModel.findUserEmail(data, (err, result) => {
@@ -94,7 +120,11 @@ exports.getUserEmail = (data, callback) => {
         callback.send(error);
     }
 }
-
+/**
+ * 
+ * @param {*} data 
+ * @param {*} callback 
+ */
 exports.getAllUsers = (data, callback) => {
     userModel.getAllUsers(data, (err, result) => {
         if (err) {

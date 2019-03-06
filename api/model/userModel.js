@@ -1,4 +1,14 @@
-const bcrypt = require('bcrypt');
+/******************************************************************************
+ *  @Purpose        : To create a user schema and store data into database.
+ *  @file           : userModel.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @version        : v0.1
+ *  @since          : 03-03-2019
+ ******************************************************************************/
+/**
+ * Require Bcrypt to create hash of the user password that is stored in database
+ **/
+ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 let saltRounds = 10;
 /**
@@ -33,15 +43,15 @@ userModel.prototype.registration = (body, callback) => {
     console.log("before =>",body);
     
     user.find({ "email": body.email },(err, data) => {
-        console.log("data===>",data);
+        console.log("data==>",data);
         if (err) {
             console.log("Error in registration");
             callback(err);
         }
         else {
             if (data > 0) {
-                console.log("Email already exists");
-                callback("User already present");
+                console.log("The Email already exists...");
+                callback("The User already present...");
             }
             else {
                 /**

@@ -1,7 +1,17 @@
+/******************************************************************************
+ *  @Purpose        : To create user controller to handle the incoming data. 
+ *  @file           : userController.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @version        : v0.1
+ *  @since          : 03-02-2019
+ ******************************************************************************/
 const userService = require("../services/userService");
 const sent = require('../middleware/nodemailer');
 const token = require('../middleware/token');
-
+/**
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.login = (req, res) => {
     console.log("login ==>req",req);    
    try {
@@ -36,7 +46,11 @@ exports.login = (req, res) => {
      res.send(err);
    }
 }
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.registration = (req, res) => {
     try {
          req.checkBody('firstname', 'Invaild firstname').isLength({
@@ -76,7 +90,11 @@ exports.registration = (req, res) => {
          res.send(err);
      }
 };
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.forgotPassword = (req, res) => {
     console.log("request in controllert==>",req.body);    
     try {
@@ -104,6 +122,11 @@ exports.forgotPassword = (req, res) => {
         res.send(err);
     }
 }
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.setPassword = (req, res) => {
     try {
         var responseResult = {};
@@ -125,11 +148,15 @@ exports.setPassword = (req, res) => {
         res.send(err);
     }
 }
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.sendResponse = (req, res) => {
     try {
         var responseResult = {};
-        console.log('in user ctrl send token is verified response');
+        console.log('In user control send token is the verified response');
         userService.redirect(req.decoded, (err, result) => {
             if (err) {
                 responseResult.success = false;
@@ -137,7 +164,7 @@ exports.sendResponse = (req, res) => {
                 res.status(500).send(responseResult)
             }
             else {
-                console.log('in user ctrl token is verified giving response');
+                console.log('In user control token is verified giving response');
                 responseResult.success = true;
                 responseResult.result = result;
                 res.status(200).send(responseResult);
@@ -147,7 +174,11 @@ exports.sendResponse = (req, res) => {
         res.send(err);
     }
 }
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getUser = (req, res) => {
     try {
         var responseResult = {};
@@ -174,7 +205,11 @@ exports.getUser = (req, res) => {
         res.send(err);
     }
 }
-
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
 exports.getAllUsers = (req, res) => {
     try {
         var responseResult = {}

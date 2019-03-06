@@ -1,3 +1,9 @@
+/******************************************************************************
+ *  @Purpose        : To provide routes to each webpages. 
+ *  @file           : routes.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @since          : 02-03-2019
+ ******************************************************************************/
 const express = require('express');
 const router = express.Router();
 const middle = require('../authentication/authentication')

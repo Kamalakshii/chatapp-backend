@@ -1,3 +1,10 @@
+/******************************************************************************
+ *  @Purpose        : To create a chat schema and store data into database.
+ *  @file           : chatModel.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @version        : v0.1
+ *  @since          : 03-03-2019
+ ******************************************************************************/
 mongoose = require('mongoose');
 /**
  * to create instance of Schema
@@ -25,7 +32,7 @@ var chatSchema = new mongoSchema({
 function chatModel() {}
 var chat = mongoose.model('chatInfo', chatSchema);
 chatModel.prototype.addMessage = (chatData, callback) => {
-     console.log("chat models=====> ",chatData);
+     console.log("chat models => ",chatData);
       console.log('chatData model-->', chatData);
       const newMsg = new chat({
           'senderId': chatData.senderId,

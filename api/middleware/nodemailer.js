@@ -1,3 +1,9 @@
+/******************************************************************************
+ *  @Purpose        : Create nodemailer to allow easy email sending . 
+ *  @file           : nodemailer.js        
+ *  @author         : KAMALAKSHI C SWAMY
+ *  @since          : 24-02-2019
+ ******************************************************************************/
 const nodemailer = require('nodemailer');
 /**
 * Here we are configuring our SMTP Server details.
